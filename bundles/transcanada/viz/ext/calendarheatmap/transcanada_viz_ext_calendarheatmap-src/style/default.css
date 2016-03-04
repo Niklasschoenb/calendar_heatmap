@@ -1,0 +1,24 @@
+/* IMPORTANT:  use unique CSS class name to avoid confliction with other extensions or applications. */
+.day {
+  fill: #fff;
+  stroke: #ccc;
+}
+
+.month {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+.RdYlGn .q0-11{fill:rgb(255,255,255)}
+.RdYlGn .q1-11{fill:rgb(234,241,248)}
+.RdYlGn .q2-11{fill:rgb(212,226,241)}
+.RdYlGn .q3-11{fill:rgb(191,212,235)}
+.RdYlGn .q4-11{fill:rgb(170,197,228)}
+.RdYlGn .q5-11{fill:rgb(149,183,221)}
+.RdYlGn .q6-11{fill:rgb(127,168,214)}
+.RdYlGn .q7-11{fill:rgb(106,154,207)}
+.RdYlGn .q8-11{fill:rgb(85,139,201)}
+.RdYlGn .q9-11{fill:rgb(63,125,194)}
+.RdYlGn .q10-11{fill:rgb(42,110,187)}
+/* For example, adding the extension id as prefix of CSS class name. */
