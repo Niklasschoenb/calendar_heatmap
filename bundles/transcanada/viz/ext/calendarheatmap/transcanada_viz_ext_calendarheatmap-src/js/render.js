@@ -104,6 +104,12 @@ define("transcanada_viz_ext_calendarheatmap-src/js/render", [], function() {
 				return "q" + d + "-11";
 			}));
 
+		var colorScheme = d3.scale.quantize()
+		.domain([(minValue * 3 - maxValue) / 2, (maxValue * 3 - minValue) / 2])
+		.range(['#fcfbfd','#efedf5','#dadaeb','#bcbddc','#9e9ac8','#807dba','#6a51a3','#54278f','#3f007d']);
+//		.range(['#f7fcf0','#e0f3db','#ccebc5','#a8ddb5','#7bccc4','#4eb3d3','#2b8cbe','#0868ac','#084081']);
+
+
 		var data1 = d3.nest()
 			.key(function(d) {
 				return d[dims[0]];
@@ -116,9 +122,8 @@ define("transcanada_viz_ext_calendarheatmap-src/js/render", [], function() {
 		rect.filter(function(d) {
 			return d in data1;
 		})
-			.attr("class", function(d) {
-				return "day " + color(data1[d]);
-			})
+//			.attr("class", function(d) { return "day " + color(data1[d]); })
+			.style("fill", function(d) { return colorScheme(data1[d]); })
 			.select("title")
 			.text(function(d) {
 				return d + ": " + data1[d];
