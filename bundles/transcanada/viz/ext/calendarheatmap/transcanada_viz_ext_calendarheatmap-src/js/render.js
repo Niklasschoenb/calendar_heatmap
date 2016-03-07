@@ -35,6 +35,7 @@ define("transcanada_viz_ext_calendarheatmap-src/js/render", [], function() {
 		// width is about 54 (weeks) x cell size + 2 cell size (for the year label), 
 		// and height is about (7 (days per week) + yearGap (2)) x cell size x # of years => 9 x cell size
 		var cellSize = (width / 56) < (height / ((maxYear - minYear + 1) * 9)) ? (width / 56) : (height / ((maxYear - minYear + 1) * 9));
+		cellSize = cellSize < 12 ? 12 : cellSize;
 
 		var yearHeight = cellSize * 7;
 
@@ -105,7 +106,8 @@ define("transcanada_viz_ext_calendarheatmap-src/js/render", [], function() {
 			}));
 
 		var colorScheme = d3.scale.quantize()
-		.domain([(minValue * 3 - maxValue) / 2, (maxValue * 3 - minValue) / 2])
+//		.domain([(minValue * 3 - maxValue) / 2, (maxValue * 3 - minValue) / 2])
+		.domain([minValue, maxValue])
 		.range(['#fcfbfd','#efedf5','#dadaeb','#bcbddc','#9e9ac8','#807dba','#6a51a3','#54278f','#3f007d']);
 //		.range(['#f7fcf0','#e0f3db','#ccebc5','#a8ddb5','#7bccc4','#4eb3d3','#2b8cbe','#0868ac','#084081']);
 
