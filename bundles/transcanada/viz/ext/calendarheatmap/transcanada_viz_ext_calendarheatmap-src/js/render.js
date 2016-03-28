@@ -13,21 +13,22 @@ define("transcanada_viz_ext_calendarheatmap-src/js/render", [], function() {
 	var render = function(data, container) {
 
 		// Data related var init	
-		var format = d3.time.format("%Y-%m-%d");
+//		var format = d3.time.format("%Y-%m-%d");
+		var format = d3.time.format("%-m/%-d/%Y");
 
 		var meta = data.meta;
 		var dims = meta.dimensions("X Axis");
 		var Y_measure = meta.measures("Y Axis")[0];
 
 		var minDate = d3.min(data, function(d) {
-				return d[dims[0]];
+				return new Date(d[dims[0]]);
 			}),
 			maxDate = d3.max(data, function(d) {
-				return d[dims[0]];
+				return new Date(d[dims[0]]);
 			});
-		//console.log(maxDate);
-		var minYear = parseInt(minDate.substr(0, 4)),
-			maxYear = parseInt(maxDate.substr(0, 4));
+
+		var minYear = minDate.getFullYear(),
+			maxYear = maxDate.getFullYear();
 
 		// graph related var init
 		var height = this.height();
@@ -45,14 +46,14 @@ define("transcanada_viz_ext_calendarheatmap-src/js/render", [], function() {
 			.append("g").attr("class", "vis").attr("width", this.width()).attr("height", this.height());
 
 		var bar = vis.selectAll("g")
-			.data(d3.range(minYear, maxYear))
-			//.data(d3.range(1990, 2011))
+			.data(d3.range(minYear, maxYear+1)) // right end is exclusive
 			.enter().append("g")
 			.attr("class", "RdYlGn")
 			.attr("transform", function(d, i) {
 				return "translate(" + 20 + "," + i * (yearHeight + 10) + ")";
 			});
 
+		// Labels of years
 		bar.append("text")
 			.attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
 			.style("text-anchor", "middle")
@@ -97,20 +98,13 @@ define("transcanada_viz_ext_calendarheatmap-src/js/render", [], function() {
 				return d[Y_measure];
 			});
 
-		var color = d3.scale.quantize()
-			.domain([(minValue * 3 - maxValue) / 2, (maxValue * 3 - minValue) / 2])
-			//    .domain([minValue, maxValue])
-			//.domain([1000, 4000])
-			.range(d3.range(11).map(function(d) {
-				return "q" + d + "-11";
-			}));
-
 		var colorScheme = d3.scale.quantize()
-//		.domain([(minValue * 3 - maxValue) / 2, (maxValue * 3 - minValue) / 2])
+//		.domain([(minValue * 3 - maxValue) / 2, (maxValue * 3 - minValue) / 2])  //option to mild scheme
 		.domain([minValue, maxValue])
-//		.range(['#fcfbfd','#efedf5','#dadaeb','#bcbddc','#9e9ac8','#807dba','#6a51a3','#54278f','#3f007d']);
-//		.range(['#f7fcf0','#e0f3db','#ccebc5','#a8ddb5','#7bccc4','#4eb3d3','#2b8cbe','#0868ac','#084081']);
-		.range(['#ffffd9','#edf8b1','#c7e9b4','#7fcdbb','#41b6c4','#1d91c0','#225ea8','#253494','#081d58']);
+		.range(["#fcfbfd","#efedf5","#dadaeb","#bcbddc","#9e9ac8","#807dba","#6a51a3","#54278f","#3f007d"]);
+//		.range(["#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"]);
+//		.range(["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"]);
+//		.range(["#FFFFFF","#E5E8EF","#CCD1E0","#B2BAD0","#99A3C1","#7F8CB1","#6675A2","#4C5E92","#334783","#193073","#001964"]);
 
 		var data1 = d3.nest()
 			.key(function(d) {
@@ -124,7 +118,6 @@ define("transcanada_viz_ext_calendarheatmap-src/js/render", [], function() {
 		rect.filter(function(d) {
 			return d in data1;
 		})
-//			.attr("class", function(d) { return "day " + color(data1[d]); })
 			.style("fill", function(d) { return colorScheme(data1[d]); })
 			.select("title")
 			.text(function(d) {
