@@ -108,7 +108,7 @@ define("transcanada_viz_ext_calendarheatmap-src/js/render", [], function() {
 
 		var data1 = d3.nest()
 			.key(function(d) {
-				return d[dims[0]];
+				return (new Date(d[dims[0]])).getTime();
 			})
 			.rollup(function(d) {
 				return d[0][Y_measure] * 1.0;
@@ -116,12 +116,12 @@ define("transcanada_viz_ext_calendarheatmap-src/js/render", [], function() {
 			.map(data);
 
 		rect.filter(function(d) {
-			return d in data1;
+			return (new Date(d)).getTime() in data1;
 		})
-			.style("fill", function(d) { return colorScheme(data1[d]); })
+			.style("fill", function(d) { return colorScheme(data1[(new Date(d)).getTime()]); })
 			.select("title")
 			.text(function(d) {
-				return d + ": " + data1[d];
+				return d + ": " + data1[(new Date(d)).getTime()];
 			});
 
 		function monthPath(t0) {
