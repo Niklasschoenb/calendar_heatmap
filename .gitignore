@@ -7,3 +7,8 @@ changes_preview_index.html
 mock_preview_sapui5.html
 .*/mock_preview_sapui5.html
 /.user.project.json
+extended_runnable_file.html
+.*/extended_runnable_file.html
+changes_preview.js
+fioriHtmlRunner.html
+.*/fioriHtmlRunner.html
